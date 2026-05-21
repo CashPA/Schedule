@@ -15,6 +15,7 @@
     --green:#1D9E75;--green2:#0F6E56;--green-bg:#0b2820;--green-text:#5dd4a8;
     --red:#E24B4A;--red2:#A32D2D;--red-bg:#2a0f0f;--red-text:#f09595;
     --amber:#BA7517;--amber-bg:#2a1e07;--amber-text:#FAC775;
+    --teal:#0e7490;--teal2:#0891b2;--teal-bright:#22d3ee;
     --radius:10px;--radius-sm:6px;--font:'Inter',system-ui,sans-serif;
   }
   body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;line-height:1.5}
@@ -24,7 +25,7 @@
   .header-left{display:flex;align-items:center;gap:12px}
   .logo{width:38px;height:38px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;letter-spacing:-1px;flex-shrink:0}
   .header h1{font-size:20px;font-weight:600;color:var(--text);letter-spacing:-0.3px}
-  .header .sub{font-size:12px;color:var(--text3);margin-top:1px;display:flex;align-items:center;gap:6px}
+  .sub{font-size:12px;color:var(--text3);margin-top:1px;display:flex;align-items:center;gap:6px}
   .sync-dot{width:7px;height:7px;border-radius:50%;background:var(--text3);flex-shrink:0;transition:background .3s}
   .sync-dot.live{background:var(--green);box-shadow:0 0 6px var(--green)}
   .sync-dot.error{background:var(--red)}
@@ -39,6 +40,8 @@
   .btn-sm{height:28px;padding:0 10px;font-size:12px}
   .btn-primary{background:var(--blue);border-color:var(--blue2);color:#fff}
   .btn-primary:hover{background:var(--blue2)}
+  .btn-teal{background:var(--teal);border-color:var(--teal2);color:#fff}
+  .btn-teal:hover{background:var(--teal2)}
   .btn-success{background:var(--green);border-color:var(--green2);color:#fff}
   .btn-success:hover{background:var(--green2)}
   .btn-danger{background:transparent;border-color:var(--red2);color:var(--red-text)}
@@ -48,9 +51,9 @@
   .month-nav button{width:30px;height:30px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg2);color:var(--text2);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all .15s}
   .month-nav button:hover{background:var(--bg3);color:var(--text)}
   .month-nav h3{font-size:16px;font-weight:600;color:var(--text);min-width:150px;text-align:center}
-  .legend{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:1rem}
-  .legend-item{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--text2)}
-  .legend-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+  .legend{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:1rem}
+  .legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2)}
+  .legend-swatch{width:28px;height:14px;border-radius:3px;flex-shrink:0}
   .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
   .dow{text-align:center;font-size:11px;font-weight:600;color:var(--text3);padding:5px 0;letter-spacing:.05em}
   .day-cell{min-height:86px;border:1px solid var(--border);border-radius:var(--radius-sm);padding:5px;background:var(--bg2);cursor:pointer;transition:border-color .15s}
@@ -63,14 +66,17 @@
   .day-num{font-size:11px;font-weight:600;color:var(--text3);margin-bottom:3px;display:flex;align-items:center;justify-content:space-between}
   .today-badge{background:var(--blue);color:#fff;border-radius:50%;width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;font-size:10px}
   .holiday-label{font-size:9px;color:var(--red-text);margin-bottom:2px;font-weight:500}
-  .shift-chip{font-size:10px;padding:2px 6px;border-radius:4px;margin-bottom:2px;color:#fff;display:flex;align-items:center;gap:3px;cursor:pointer;transition:opacity .1s}
-  .shift-chip:hover{opacity:.85}
-
-  .chip-name{flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-weight:500}
-  .chip-badge{font-size:9px;padding:1px 3px;border-radius:3px;background:rgba(0,0,0,0.25);flex-shrink:0}
-  .chip-trade{background:var(--red)!important;filter:none!important}
-  .vacation-chip{font-size:10px;padding:2px 6px;border-radius:4px;margin-bottom:2px;color:#fff;display:flex;align-items:center;gap:3px;cursor:pointer;transition:opacity .1s;background:#0e7490;border-left:3px solid #22d3ee}
-  .vacation-chip:hover{opacity:.85}
+  /* Shift chips — day is full brightness, night is dimmed */
+  .shift-chip{font-size:10px;padding:2px 5px;border-radius:4px;margin-bottom:2px;color:#fff;display:flex;align-items:center;gap:2px;cursor:pointer;transition:opacity .1s}
+  .shift-chip:hover{opacity:.82}
+  .shift-chip.is-night{filter:brightness(0.65)}
+  .shift-chip.is-trade{background:var(--red)!important;filter:none!important}
+  .chip-name{flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-weight:500;font-size:9.5px}
+  .chip-emoji{font-size:9px;flex-shrink:0;line-height:1}
+  /* Vacation chips */
+  .vac-chip{font-size:10px;padding:2px 5px;border-radius:4px;margin-bottom:2px;color:#fff;display:flex;align-items:center;gap:2px;cursor:pointer;transition:opacity .1s;background:var(--teal);border-left:2px solid var(--teal-bright)}
+  .vac-chip:hover{opacity:.82}
+  .vac-chip-name{flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-size:9.5px;font-weight:500}
   .trade-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:.75rem;transition:border-color .15s}
   .trade-card:hover{border-color:var(--border2)}
   .badge{font-size:11px;padding:2px 9px;border-radius:10px;font-weight:500}
@@ -103,40 +109,22 @@
   .color-dot-pick{width:22px;height:22px;border-radius:50%;cursor:pointer;border:2px solid transparent;flex-shrink:0;transition:border-color .15s}
   .color-dot-pick.sel{border-color:#fff}
   .color-dot-pick:hover{border-color:rgba(255,255,255,.5)}
-  .import-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:.875rem}
-  .import-zone{border:1.5px dashed var(--border2);border-radius:var(--radius);padding:1.25rem;text-align:center;cursor:pointer;transition:all .15s;background:var(--bg2)}
-  .import-zone:hover{border-color:var(--blue);background:var(--blue-bg)}
-  .import-zone svg{width:28px;height:28px;color:var(--text2);display:block;margin:0 auto .5rem}
-  .import-zone:hover svg{color:var(--blue-text)}
-  .import-zone p{font-size:13px;color:var(--text);margin-bottom:2px;font-weight:500}
-  .import-zone small{font-size:11px;color:var(--text3)}
-  .ai-pill{display:inline-flex;align-items:center;gap:3px;font-size:10px;padding:1px 7px;border-radius:8px;background:var(--purple-bg);color:var(--purple-text);border:1px solid var(--purple2);margin-left:5px;vertical-align:middle}
-  .progress-bar-wrap{background:var(--bg3);border-radius:4px;height:5px;margin:.625rem 0;overflow:hidden;display:none}
-  .progress-bar-wrap.vis{display:block}
-  .progress-bar{height:100%;background:var(--blue);border-radius:4px;transition:width .3s}
   .status-msg{font-size:12px;min-height:18px;margin-top:4px}
-  .preview-scroll{max-height:200px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--radius-sm);margin-top:.5rem}
-  .preview-table{width:100%;border-collapse:collapse;font-size:12px}
-  .preview-table th{text-align:left;color:var(--text2);font-weight:600;padding:6px 10px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg3)}
-  .preview-table td{padding:5px 10px;border-bottom:1px solid var(--border);color:var(--text)}
-  .preview-table tr:last-child td{border-bottom:none}
-  .type-day{color:var(--blue-text)}.type-night{color:var(--purple-text)}
-  .empty-state{text-align:center;padding:3rem 1rem;color:var(--text3)}
-  .empty-state svg{width:40px;height:40px;margin:0 auto .75rem;display:block;opacity:.4}
   .checklist{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:1rem;margin-top:1.25rem}
   .checklist-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:.625rem}
   .checklist ol{padding-left:1.25rem;font-size:12px;color:var(--text2);line-height:2}
   .checklist code{background:var(--bg4);padding:1px 6px;border-radius:3px;color:var(--blue-text);font-size:11px}
+  .empty-state{text-align:center;padding:3rem 1rem;color:var(--text3)}
+  .empty-state svg{width:40px;height:40px;margin:0 auto .75rem;display:block;opacity:.4}
   .toast{position:fixed;bottom:1.5rem;right:1.5rem;background:var(--bg4);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:.625rem 1rem;font-size:13px;color:var(--text);z-index:300;opacity:0;transform:translateY(8px);transition:all .25s;pointer-events:none}
   .toast.show{opacity:1;transform:translateY(0)}
   ::-webkit-scrollbar{width:6px;height:6px}
   ::-webkit-scrollbar-track{background:var(--bg)}
   ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
   @media(max-width:600px){
-    .import-grid{grid-template-columns:1fr}
     .header{flex-direction:column;align-items:flex-start}
     .day-cell{min-height:62px}
-    .shift-chip{font-size:9px}
+    .shift-chip,.vac-chip{font-size:9px}
   }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -149,7 +137,7 @@
       <div>
         <h1>NSICU Trade Calendar</h1>
         <div class="sub">
-          Q3 2025 &nbsp;·&nbsp; June 21 – September 21
+          Q3 2026 &nbsp;&middot;&nbsp; June 21 – September 21
           &nbsp;&middot;&nbsp;
           <span class="sync-dot" id="sync-dot"></span>
           <span class="sync-label" id="sync-label">Connecting&hellip;</span>
@@ -166,21 +154,21 @@
   <!-- CALENDAR -->
   <div id="sec-calendar" class="section active">
     <div class="legend">
-      <div class="legend-item"><div class="legend-dot" style="background:#378ADD"></div>☀️ Day shift (full color)</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#378ADD;filter:brightness(0.72)"></div>🌙 Night shift (dimmed)</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#0e7490;border-left:3px solid #22d3ee"></div>🏖️ Vacation</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#E24B4A"></div>Trade requested</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#2e3650;border:1px solid #E24B4A"></div>Holiday</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:var(--blue)"></div>☀️ Day shift</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:var(--blue);filter:brightness(0.65)"></div>🌙 Night shift</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:var(--teal);border-left:3px solid var(--teal-bright)"></div>🏖️ Vacation</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:var(--red)"></div>Trade needed</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:var(--red-bg);border:1px solid var(--red2)"></div>Holiday</div>
     </div>
     <div class="cal-header">
       <div class="month-nav">
         <button onclick="prevMonth()">&#8249;</button>
-        <h3 id="month-label">June 2025</h3>
+        <h3 id="month-label">June 2026</h3>
         <button onclick="nextMonth()">&#8250;</button>
       </div>
-      <div style="display:flex;gap:6px">
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
         <button class="btn btn-sm btn-primary" onclick="openAddShift()">+ Add shift</button>
-        <button class="btn btn-sm" style="background:#0e7490;border-color:#0891b2;color:#fff" onclick="openAddVacation()">🏖️ Vacation</button>
+        <button class="btn btn-sm btn-teal" onclick="openAddVacation()">🏖️ Add vacation</button>
       </div>
     </div>
     <div class="cal-grid">
@@ -188,7 +176,7 @@
       <div class="dow">WED</div><div class="dow">THU</div><div class="dow">FRI</div><div class="dow">SAT</div>
     </div>
     <div class="cal-grid" id="cal-body"></div>
-    <div style="margin-top:.875rem;font-size:12px;color:var(--text3)">Click a date to add a shift &nbsp;&middot;&nbsp; Click a shift to view details or request a trade</div>
+    <div style="margin-top:.875rem;font-size:12px;color:var(--text3)">Click a date to add a shift &nbsp;&middot;&nbsp; Click any chip to view details</div>
   </div>
 
   <!-- TRADES -->
@@ -207,7 +195,7 @@
   <div id="sec-team" class="section">
     <div style="margin-bottom:1.5rem">
       <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:.4rem">Team members</div>
-      <div style="font-size:12px;color:var(--text3);margin-bottom:1rem">Each person gets a unique color on the calendar.</div>
+      <div style="font-size:12px;color:var(--text3);margin-bottom:1rem">Each person gets a unique color on the calendar. Day shifts show at full brightness, night shifts dimmed.</div>
       <div id="staff-list"></div>
       <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:.75rem">
         <input id="new-name" placeholder="Name" style="height:34px;flex:1;min-width:130px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:0 10px;font-size:13px;color:var(--text);font-family:var(--font);outline:none" onkeydown="if(event.key==='Enter')addStaff()"/>
@@ -215,35 +203,14 @@
         <button class="btn btn-primary btn-sm" onclick="addStaff()">Add</button>
       </div>
     </div>
-
     <div style="border-top:1px solid var(--border);padding-top:1.5rem">
-      <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:.4rem">Import schedule</div>
-      <div style="font-size:12px;color:var(--text3);margin-bottom:1rem">Upload a PDF or .ics file. Claude AI reads PDFs in any layout automatically.</div>
-      <div class="import-grid">
-        <div class="import-zone" onclick="document.getElementById('pdf-upload').click()">
-          <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/></svg>
-          <p>PDF schedule <span class="ai-pill">&#9679; AI</span></p>
-          <small>Any format, printed or digital</small>
-        </div>
-        <div class="import-zone" onclick="document.getElementById('ics-upload').click()">
-          <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>
-          <p>.ics calendar file</p>
-          <small>QGenda, Amion, Outlook, Google</small>
-        </div>
-      </div>
-      <input type="file" id="pdf-upload" accept=".pdf" style="display:none" onchange="handlePDFUpload(event)"/>
-      <input type="file" id="ics-upload" accept=".ics" style="display:none" onchange="handleICSUpload(event)"/>
-      <div class="progress-bar-wrap" id="progress-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
-      <div class="status-msg" id="import-status"></div>
-
       <div class="checklist">
-        <div class="checklist-title">&#9881; Supabase setup checklist — complete if sync dot is not green</div>
+        <div class="checklist-title">&#9881; Supabase sync checklist</div>
         <ol>
-          <li>Table Editor: create table <code>shared_state</code> with columns <code>id</code> (int8, primary key) and <code>data</code> (jsonb)</li>
-          <li>SQL Editor: run <code>INSERT INTO shared_state (id, data) VALUES (1, '{}'::jsonb);</code></li>
-          <li>Database &rarr; Replication: enable Realtime for the <code>shared_state</code> table</li>
-          <li>Authentication &rarr; Policies: add policy allowing anon SELECT + UPDATE on <code>shared_state</code></li>
-          <li>In this file: set <code>SUPABASE_URL</code> to <code>https://xxxx.supabase.co</code> &mdash; no trailing slash, no <code>/rest/v1/</code></li>
+          <li>Table Editor: table <code>shared_state</code> with <code>id</code> (int8 PK) and <code>data</code> (jsonb)</li>
+          <li>SQL Editor: <code>INSERT INTO shared_state (id,data) VALUES (1,'{}'::jsonb) ON CONFLICT DO NOTHING;</code></li>
+          <li>SQL Editor: <code>GRANT SELECT,INSERT,UPDATE ON public.shared_state TO anon;</code></li>
+          <li><code>SUPABASE_URL</code> in this file = <code>https://xxxx.supabase.co</code> (no trailing slash)</li>
         </ol>
       </div>
     </div>
@@ -255,12 +222,12 @@
   <div class="modal">
     <h3>Add shift</h3>
     <div class="form-row"><label>Team member</label><select id="shift-who"></select></div>
-    <div class="form-row"><label>Date</label><input type="date" id="shift-date" min="2025-06-21" max="2025-09-21"/></div>
+    <div class="form-row"><label>Date</label><input type="date" id="shift-date" min="2026-06-21" max="2026-09-21"/></div>
     <div class="form-row">
       <label>Shift type</label>
       <div class="toggle-group">
-        <button class="toggle-btn active-day" id="toggle-day" onclick="setShiftType('day')">Day &nbsp;7a &ndash; 7p</button>
-        <button class="toggle-btn" id="toggle-night" onclick="setShiftType('night')">Night &nbsp;7p &ndash; 7a</button>
+        <button class="toggle-btn active-day" id="toggle-day" onclick="setShiftType('day')">☀️ Day &nbsp;7a–7p</button>
+        <button class="toggle-btn" id="toggle-night" onclick="setShiftType('night')">🌙 Night &nbsp;7p–7a</button>
       </div>
     </div>
     <div class="form-actions">
@@ -284,12 +251,12 @@
   <div class="modal">
     <h3>Request a trade</h3>
     <div class="form-row"><label>Your name</label><select id="trade-who"></select></div>
-    <div class="form-row"><label>Shift you need covered</label><input type="date" id="trade-shift-date" min="2025-06-21" max="2025-09-21"/></div>
+    <div class="form-row"><label>Shift you need covered</label><input type="date" id="trade-shift-date" min="2026-06-21" max="2026-09-21"/></div>
     <div class="form-row">
       <label>Shift type</label>
       <div class="toggle-group">
-        <button class="toggle-btn active-day" id="trade-toggle-day" onclick="setTradeType('day')">Day &nbsp;7a &ndash; 7p</button>
-        <button class="toggle-btn" id="trade-toggle-night" onclick="setTradeType('night')">Night &nbsp;7p &ndash; 7a</button>
+        <button class="toggle-btn active-day" id="trade-toggle-day" onclick="setTradeType('day')">☀️ Day &nbsp;7a–7p</button>
+        <button class="toggle-btn" id="trade-toggle-night" onclick="setTradeType('night')">🌙 Night &nbsp;7p–7a</button>
       </div>
     </div>
     <div class="form-row">
@@ -307,22 +274,6 @@
   </div>
 </div>
 
-<!-- MODAL: PDF Preview -->
-<div class="modal-overlay" id="modal-pdf-preview">
-  <div class="modal" style="width:460px">
-    <h3>Review extracted shifts</h3>
-    <div id="preview-summary" style="font-size:13px;color:var(--text2);margin-bottom:1rem"></div>
-    <div class="form-row"><label>Assign all these shifts to</label><select id="preview-who"></select></div>
-    <div class="preview-scroll" id="preview-table-wrap"></div>
-    <div class="form-actions">
-      <button class="btn btn-sm" onclick="closeModal('modal-pdf-preview')">Cancel</button>
-      <button class="btn btn-sm btn-success" onclick="confirmPDFImport()">&#10003; Add to calendar</button>
-    </div>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
-
 <!-- MODAL: Add vacation -->
 <div class="modal-overlay" id="modal-add-vacation">
   <div class="modal">
@@ -332,11 +283,11 @@
     <div class="form-row"><label>End date</label><input type="date" id="vac-end" min="2026-06-21" max="2026-09-21"/></div>
     <div class="form-row">
       <label>Note <span style="color:var(--text3);font-weight:400">(optional)</span></label>
-      <input type="text" id="vac-note" placeholder="e.g. Annual leave, Conference…"/>
+      <input type="text" id="vac-note" placeholder="e.g. Annual leave, Conference&hellip;"/>
     </div>
     <div class="form-actions">
       <button class="btn btn-sm" onclick="closeModal('modal-add-vacation')">Cancel</button>
-      <button class="btn btn-sm" style="background:#0e7490;border-color:#0891b2;color:#fff" onclick="saveVacation()">Save vacation</button>
+      <button class="btn btn-sm btn-teal" onclick="saveVacation()">Save vacation</button>
     </div>
   </div>
 </div>
@@ -350,9 +301,10 @@
   </div>
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script>
-// ─── CONFIG ──────────────────────────────────────────────────────────────────
-// FIX 1: URL must be base project URL only — no /rest/v1/, no trailing slash
+// ─── CONFIG — update SUPABASE_URL with your correct project URL ───────────────
 const SUPABASE_URL      = 'https://hyxftqxihhqgfbfxkpgx.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh5eGZ0cXhpaGhxZ2ZiZnhrcGd4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzMTI0MjAsImV4cCI6MjA5NDg4ODQyMH0.-8xiy9XYuHLMWXxfMpH4IJIROcpgSn6Uw6bK__9pGPY';
 // ─────────────────────────────────────────────────────────────────────────────
@@ -360,16 +312,17 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const COLORS   = ['#378ADD','#7F77DD','#1D9E75','#D85A30','#BA7517','#D4537E','#639922','#5DCAA5','#E24B4A'];
-const HOLIDAYS = {'2025-07-04':'Independence Day','2025-09-01':'Labor Day'};
-const Q3_START = new Date(2025,5,21);
-const Q3_END   = new Date(2025,8,21);
+const HOLIDAYS = {'2026-07-04':'Independence Day','2026-09-07':'Labor Day'};
+const Q3_START = new Date(2026,5,21);
+const Q3_END   = new Date(2026,8,21);
 const MONTHS   = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const ROW_ID   = 1;
 
 let state = {staff:[],shifts:[],trades:[],vacations:[],curMonth:5,curYear:2026,addShiftType:'day',tradeShiftType:'day',selAvailDays:[]};
-let pendingPDFShifts = [];
 let selColor = COLORS[0];
 let _suppressRemote = false;
+let _lastSeenData = '';
+let _pollInterval = null;
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,6) }
@@ -382,173 +335,192 @@ function toast(msg){
   setTimeout(()=>el.classList.remove('show'),3000);
 }
 function setSyncStatus(s){
-  const dot=document.getElementById('sync-dot'), lbl=document.getElementById('sync-label');
-  if(s==='live') { dot.className='sync-dot live';  lbl.textContent='Live sync on'; }
-  if(s==='error'){ dot.className='sync-dot error'; lbl.textContent='Sync error — see checklist in Team tab'; }
-  if(s==='wait') { dot.className='sync-dot';       lbl.textContent='Connecting\u2026'; }
+  const dot=document.getElementById('sync-dot'),lbl=document.getElementById('sync-label');
+  if(s==='live'){dot.className='sync-dot live';lbl.textContent='Live sync on';}
+  if(s==='error'){dot.className='sync-dot error';lbl.textContent='Sync error';}
+  if(s==='wait'){dot.className='sync-dot';lbl.textContent='Connecting\u2026';}
 }
 
-// ── Supabase cloud persistence ────────────────────────────────────────────────
+// ── Supabase ──────────────────────────────────────────────────────────────────
+function cloudPayload(){
+  const {curMonth,curYear,addShiftType,tradeShiftType,selAvailDays,...rest}=state;
+  return rest;
+}
 
-// FIX 3: this function was called in init() but never defined — now it exists
 async function loadStateFromCloud(){
-  try {
-    const { data, error } = await sb.from('shared_state').select('data').eq('id', ROW_ID).single();
+  try{
+    const {data,error}=await sb.from('shared_state').select('data').eq('id',ROW_ID).single();
     if(error) throw error;
-    if(data && data.data && data.data.staff){
-      const ui = {curMonth:state.curMonth, curYear:state.curYear, addShiftType:state.addShiftType, tradeShiftType:state.tradeShiftType, selAvailDays:state.selAvailDays};
-      state = Object.assign({vacations:[]}, data.data, ui);
+    if(data&&data.data&&data.data.staff){
+      const ui={curMonth:state.curMonth,curYear:state.curYear,addShiftType:state.addShiftType,tradeShiftType:state.tradeShiftType,selAvailDays:state.selAvailDays};
+      state=Object.assign({},data.data,ui);
+      if(!state.vacations) state.vacations=[];
     }
     setSyncStatus('live');
-  } catch(e) {
-    console.error('loadStateFromCloud:', e);
+  }catch(e){
+    console.error('loadStateFromCloud:',e);
     setSyncStatus('error');
-    // graceful fallback to localStorage so app still works offline
-    try { const s=localStorage.getItem('nsicu-cal-v2'); if(s) Object.assign(state, JSON.parse(s)); } catch(_){}
+    try{const s=localStorage.getItem('nsicu-cal-v3');if(s)Object.assign(state,JSON.parse(s));}catch(_){}
   }
 }
 
 async function saveStateToCloud(){
-  const {curMonth,curYear,addShiftType,tradeShiftType,selAvailDays,...cloudState} = state;
-  _suppressRemote = true;
-  try {
-    // FIX 2: upsert instead of update — creates the row if id=1 doesn't exist yet
-    const { error } = await sb.from('shared_state').upsert({ id: ROW_ID, data: cloudState });
+  _suppressRemote=true;
+  const payload=cloudPayload();
+  try{
+    const {error}=await sb.from('shared_state').upsert({id:ROW_ID,data:payload});
     if(error) throw error;
-    localStorage.setItem('nsicu-cal-v2', JSON.stringify(cloudState));
-  } catch(e) {
-    console.error('saveStateToCloud:', e);
+    localStorage.setItem('nsicu-cal-v3',JSON.stringify(payload));
+  }catch(e){
+    console.error('saveStateToCloud:',e);
     setSyncStatus('error');
   }
 }
 
-// POLLING: replaces WebSocket realtime (which Netlify blocks).
-// Every 5 seconds, fetch the row and re-render only if data changed.
-let _lastSeenData = '';
-let _pollInterval = null;
-
 async function pollForUpdates(){
-  if(_suppressRemote){ _suppressRemote=false; return; }
-  try {
-    const { data, error } = await sb
-      .from('shared_state')
-      .select('data')
-      .eq('id', ROW_ID)
-      .single();
+  if(_suppressRemote){_suppressRemote=false;return;}
+  try{
+    const {data,error}=await sb.from('shared_state').select('data').eq('id',ROW_ID).single();
     if(error) throw error;
-    if(!data || !data.data) return;
-    const incoming = JSON.stringify(data.data);
-    if(incoming === _lastSeenData) return; // nothing changed
-    _lastSeenData = incoming;
-    const ui = {curMonth:state.curMonth, curYear:state.curYear, addShiftType:state.addShiftType, tradeShiftType:state.tradeShiftType, selAvailDays:state.selAvailDays};
-    state = Object.assign({vacations:[]}, data.data, ui);
+    if(!data||!data.data) return;
+    const incoming=JSON.stringify(data.data);
+    if(incoming===_lastSeenData) return;
+    _lastSeenData=incoming;
+    const ui={curMonth:state.curMonth,curYear:state.curYear,addShiftType:state.addShiftType,tradeShiftType:state.tradeShiftType,selAvailDays:state.selAvailDays};
+    state=Object.assign({},data.data,ui);
+    if(!state.vacations) state.vacations=[];
     refreshAllViews();
     toast('Calendar updated \u21BB');
     setSyncStatus('live');
-  } catch(e) {
-    console.warn('poll error:', e);
+  }catch(e){
+    console.warn('poll error:',e);
     setSyncStatus('error');
   }
 }
 
 function startPolling(){
   if(_pollInterval) clearInterval(_pollInterval);
-  _pollInterval = setInterval(pollForUpdates, 5000);
+  _pollInterval=setInterval(pollForUpdates,5000);
 }
 
 // ── UI helpers ────────────────────────────────────────────────────────────────
 function showTab(t){
-  const names=['calendar','trades','team'];
-  document.querySelectorAll('.tab').forEach((b,i)=>b.classList.toggle('active',names[i]===t));
-  names.forEach(n=>document.getElementById('sec-'+n).classList.toggle('active',n===t));
-  if(t==='trades')  renderTrades();
-  if(t==='calendar')renderCalendar();
-  if(t==='team')    renderTeam();
+  ['calendar','trades','team'].forEach((n,i)=>{
+    document.querySelectorAll('.tab')[i].classList.toggle('active',n===t);
+    document.getElementById('sec-'+n).classList.toggle('active',n===t);
+  });
+  if(t==='trades') renderTrades();
+  if(t==='calendar') renderCalendar();
+  if(t==='team') renderTeam();
 }
-function openModal(id){ document.getElementById(id).classList.add('open') }
-function closeModal(id){ document.getElementById(id).classList.remove('open') }
+function openModal(id){document.getElementById(id).classList.add('open')}
+function closeModal(id){document.getElementById(id).classList.remove('open')}
 document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',function(e){if(e.target===this)this.classList.remove('open')}));
-function refreshAllViews(){ renderCalendar(); renderTeam(); renderTrades(); }
+function refreshAllViews(){renderCalendar();renderTeam();renderTrades();}
 
 // ── Color pickers ─────────────────────────────────────────────────────────────
 function renderColorPickers(){
-  const c=document.getElementById('color-pickers'); if(!c)return;
+  const c=document.getElementById('color-pickers');if(!c)return;
   c.innerHTML=COLORS.map(col=>`<div class="color-dot-pick${selColor===col?' sel':''}" style="background:${col}" onclick="pickColor('${col}')"></div>`).join('');
 }
-function pickColor(col){ selColor=col; renderColorPickers() }
+function pickColor(col){selColor=col;renderColorPickers()}
 
 // ── Team ──────────────────────────────────────────────────────────────────────
 function renderTeam(){
   document.getElementById('staff-list').innerHTML=state.staff.length
-    ? state.staff.map(s=>`<div class="staff-row-item">
+    ?state.staff.map(s=>`<div class="staff-row-item">
         <div class="color-swatch" style="background:${s.color}"></div>
         <span style="flex:1;font-size:13px;color:var(--text)">${s.name}</span>
         <span style="font-size:11px;color:var(--text3);margin-right:8px">${state.shifts.filter(sh=>sh.who===s.id).length} shifts</span>
         <button class="btn btn-sm btn-danger" onclick="removeStaff('${s.id}')">Remove</button>
       </div>`).join('')
-    : `<div style="font-size:13px;color:var(--text3);padding:.5rem 0">No team members yet.</div>`;
+    :`<div style="font-size:13px;color:var(--text3);padding:.5rem 0">No team members yet.</div>`;
   renderColorPickers();
 }
 function addStaff(){
-  const n=document.getElementById('new-name').value.trim(); if(!n)return;
+  const n=document.getElementById('new-name').value.trim();if(!n)return;
   const used=state.staff.map(s=>s.color);
   state.staff.push({id:uid(),name:n,color:selColor||COLORS.find(c=>!used.includes(c))||COLORS[0]});
   document.getElementById('new-name').value='';
   selColor=COLORS.find(c=>!state.staff.map(s=>s.color).includes(c))||COLORS[0];
-  saveStateToCloud(); renderTeam(); renderCalendar();
+  saveStateToCloud();renderTeam();renderCalendar();
 }
 function removeStaff(id){
   if(!confirm('Remove this team member and their shifts?'))return;
   state.staff=state.staff.filter(s=>s.id!==id);
   state.shifts=state.shifts.filter(s=>s.who!==id);
   state.trades=state.trades.filter(t=>t.who!==id);
-  saveStateToCloud(); renderTeam(); renderCalendar();
+  state.vacations=state.vacations.filter(v=>v.who!==id);
+  saveStateToCloud();renderTeam();renderCalendar();
 }
 
 // ── Calendar ──────────────────────────────────────────────────────────────────
-function prevMonth(){ if(state.curMonth===5&&state.curYear===2025)return; state.curMonth--; if(state.curMonth<0){state.curMonth=11;state.curYear--;} renderCalendar(); }
-function nextMonth(){ if(state.curMonth===8&&state.curYear===2025)return; state.curMonth++; if(state.curMonth>11){state.curMonth=0;state.curYear++;} renderCalendar(); }
+function prevMonth(){
+  if(state.curMonth===5&&state.curYear===2026)return;
+  state.curMonth--;if(state.curMonth<0){state.curMonth=11;state.curYear--;}renderCalendar();
+}
+function nextMonth(){
+  if(state.curMonth===8&&state.curYear===2026)return;
+  state.curMonth++;if(state.curMonth>11){state.curMonth=0;state.curYear++;}renderCalendar();
+}
 
 function renderCalendar(){
   const m=state.curMonth,y=state.curYear;
   document.getElementById('month-label').textContent=MONTHS[m]+' '+y;
-  const first=new Date(y,m,1).getDay(), days=new Date(y,m+1,0).getDate(), today=new Date();
+  const first=new Date(y,m,1).getDay(),days=new Date(y,m+1,0).getDate(),today=new Date();
   let html='';
   for(let i=0;i<first;i++) html+=`<div class="day-cell empty"></div>`;
   for(let d=1;d<=days;d++){
-    const dt=new Date(y,m,d), ds=fmtDate(dt);
-    const inQ3=dt>=Q3_START&&dt<=Q3_END, isH=!!HOLIDAYS[ds], isT=dt.toDateString()===today.toDateString();
-    let cls='day-cell'; if(!inQ3)cls+=' out-of-q3'; if(isH&&inQ3)cls+=' holiday'; if(isT)cls+=' today';
+    const dt=new Date(y,m,d),ds=fmtDate(dt);
+    const inQ3=dt>=Q3_START&&dt<=Q3_END,isH=!!HOLIDAYS[ds],isT=dt.toDateString()===today.toDateString();
+    let cls='day-cell';
+    if(!inQ3)cls+=' out-of-q3';
+    if(isH&&inQ3)cls+=' holiday';
+    if(isT)cls+=' today';
     html+=`<div class="${cls}" onclick="${inQ3?`cellClick('${ds}')`:``}">`;
     html+=`<div class="day-num">${isT?`<span class="today-badge">${d}</span>`:`<span>${d}</span>`}</div>`;
     if(inQ3&&isH) html+=`<div class="holiday-label">${HOLIDAYS[ds]}</div>`;
-    state.shifts.filter(s=>s.date===ds).forEach(sh=>{
-      const st=state.staff.find(s=>s.id===sh.who);
-      const col=st?st.color:(sh.type==='day'?'#378ADD':'#7F77DD'), nm=st?st.name:'?';
-      const hasTrade=state.trades.find(t=>t.shiftId===sh.id);
-    
-      html+=`<div class="shift-chip${hasTrade?' chip-trade':''}" style="${hasTrade?'':'background:'+col}" onclick="event.stopPropagation();showShiftDetail('${sh.id}')">
-        <span class="chip-name">${nm}</span><span class="chip-badge">${sh.type==='day'?'☀️':'🌙'}</span>${hasTrade?`<span class="chip-badge">!</span>`:''}
-      </div>`;
-    });
-    state.vacations.filter(v=>v.dates.includes(ds)).forEach(v=>{
+
+    // Vacation chips
+    (state.vacations||[]).filter(v=>v.dates&&v.dates.includes(ds)).forEach(v=>{
       const st=state.staff.find(s=>s.id===v.who);
       const nm=st?st.name:'?';
-      html+=`<div class="vacation-chip" onclick="event.stopPropagation();showVacationDetail('${v.id}')">
-        <span class="chip-name">🏖️ ${nm}</span>
+      html+=`<div class="vac-chip" onclick="event.stopPropagation();showVacationDetail('${v.id}')">
+        <span class="chip-emoji">🏖️</span>
+        <span class="vac-chip-name">${nm}</span>
       </div>`;
     });
+
+    // Shift chips
+    state.shifts.filter(s=>s.date===ds).forEach(sh=>{
+      const st=state.staff.find(s=>s.id===sh.who);
+      const col=st?st.color:(sh.type==='day'?'#378ADD':'#7F77DD');
+      const nm=st?st.name:'?';
+      const hasTrade=state.trades.find(t=>t.shiftId===sh.id);
+      const isNight=sh.type==='night';
+      const emoji=isNight?'🌙':'☀️';
+      let chipCls='shift-chip';
+      if(hasTrade) chipCls+=' is-trade';
+      else if(isNight) chipCls+=' is-night';
+      html+=`<div class="${chipCls}" style="${hasTrade?'':'background:'+col}" onclick="event.stopPropagation();showShiftDetail('${sh.id}')">
+        <span class="chip-emoji">${emoji}</span>
+        <span class="chip-name">${nm}</span>
+        ${hasTrade?`<span style="font-size:8px;background:rgba(0,0,0,.25);padding:1px 2px;border-radius:2px">!</span>`:''}
+      </div>`;
+    });
+
     html+=`</div>`;
   }
   document.getElementById('cal-body').innerHTML=html;
 }
 
-function cellClick(ds){ openAddShiftOnDate(ds) }
-function openAddShift(){ openAddShiftOnDate(fmtDate(new Date())) }
+function cellClick(ds){openAddShiftOnDate(ds)}
+function openAddShift(){openAddShiftOnDate(fmtDate(new Date()))}
 function openAddShiftOnDate(ds){
   populateSelect('shift-who');
   document.getElementById('shift-date').value=ds;
-  setShiftType('day'); openModal('modal-add-shift');
+  setShiftType('day');
+  openModal('modal-add-shift');
 }
 function setShiftType(t){
   state.addShiftType=t;
@@ -562,29 +534,33 @@ function setTradeType(t){
 }
 function populateSelect(id){
   document.getElementById(id).innerHTML=state.staff.length
-    ? state.staff.map(s=>`<option value="${s.id}">${s.name}</option>`).join('')
-    : '<option value="">Add team members first</option>';
+    ?state.staff.map(s=>`<option value="${s.id}">${s.name}</option>`).join('')
+    :'<option value="">Add team members first</option>';
 }
 function saveShift(){
-  const who=document.getElementById('shift-who').value, date=document.getElementById('shift-date').value;
+  const who=document.getElementById('shift-who').value,date=document.getElementById('shift-date').value;
   if(!who||!date){alert('Please select a team member and date.');return;}
   state.shifts.push({id:uid(),who,date,type:state.addShiftType});
-  saveStateToCloud(); closeModal('modal-add-shift'); renderCalendar();
+  saveStateToCloud();closeModal('modal-add-shift');renderCalendar();
 }
 function showShiftDetail(id){
-  const sh=state.shifts.find(s=>s.id===id); if(!sh)return;
-  const st=state.staff.find(s=>s.id===sh.who), hasTrade=state.trades.find(t=>t.shiftId===id);
+  const sh=state.shifts.find(s=>s.id===id);if(!sh)return;
+  const st=state.staff.find(s=>s.id===sh.who);
+  const hasTrade=state.trades.find(t=>t.shiftId===id);
+  const emoji=sh.type==='night'?'🌙':'☀️';
   document.getElementById('detail-body').innerHTML=`
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem">
       <div style="width:36px;height:36px;border-radius:50%;background:${st?st.color:'#378ADD'};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#fff">${st?st.name[0]:'?'}</div>
-      <div><div style="font-size:15px;font-weight:600;color:var(--text)">${st?st.name:'Unknown'}</div><div style="font-size:12px;color:var(--text3)">${fmtPretty(sh.date)}</div></div>
+      <div><div style="font-size:15px;font-weight:600;color:var(--text)">${st?st.name:'Unknown'}</div>
+      <div style="font-size:12px;color:var(--text3)">${fmtPretty(sh.date)}</div></div>
     </div>
     <div style="background:var(--bg3);border-radius:var(--radius-sm);padding:.75rem;font-size:13px;color:var(--text2);margin-bottom:.75rem">
-      <strong style="color:var(--text)">${sh.type==='day'?'Day shift':'Night shift'}</strong> &nbsp;&middot;&nbsp; ${sh.type==='day'?'7:00 AM &ndash; 7:00 PM':'7:00 PM &ndash; 7:00 AM'}
+      <strong style="color:var(--text)">${emoji} ${sh.type==='day'?'Day shift':'Night shift'}</strong>
+      &nbsp;&middot;&nbsp;${sh.type==='day'?'7:00 AM – 7:00 PM':'7:00 PM – 7:00 AM'}
     </div>
-    ${hasTrade?`<div style="background:var(--red-bg);border:1px solid var(--red2);border-radius:var(--radius-sm);padding:.625rem .875rem;font-size:12px;color:var(--red-text)">&#8644; Trade requested &mdash; view on the Trade Board</div>`:''}`;
+    ${hasTrade?`<div style="background:var(--red-bg);border:1px solid var(--red2);border-radius:var(--radius-sm);padding:.625rem .875rem;font-size:12px;color:var(--red-text)">&#8644; Trade requested — view on Trade Board</div>`:''}`;
   document.getElementById('detail-actions').innerHTML=`
-    <button class="btn btn-sm btn-danger" onclick="deleteShift('${id}')">Delete shift</button>
+    <button class="btn btn-sm btn-danger" onclick="deleteShift('${id}')">Delete</button>
     ${!hasTrade?`<button class="btn btn-sm" onclick="closeModal('modal-shift-detail');openRequestTradeForShift('${id}')">Request trade</button>`:''}
     <button class="btn btn-sm" onclick="closeModal('modal-shift-detail')">Close</button>`;
   openModal('modal-shift-detail');
@@ -593,7 +569,53 @@ function deleteShift(id){
   if(!confirm('Delete this shift?'))return;
   state.shifts=state.shifts.filter(s=>s.id!==id);
   state.trades=state.trades.filter(t=>t.shiftId!==id);
-  saveStateToCloud(); closeModal('modal-shift-detail'); renderCalendar();
+  saveStateToCloud();closeModal('modal-shift-detail');renderCalendar();
+}
+
+// ── Vacations ─────────────────────────────────────────────────────────────────
+function openAddVacation(){
+  populateSelect('vac-who');
+  document.getElementById('vac-start').value='';
+  document.getElementById('vac-end').value='';
+  document.getElementById('vac-note').value='';
+  openModal('modal-add-vacation');
+}
+function saveVacation(){
+  const who=document.getElementById('vac-who').value;
+  const start=document.getElementById('vac-start').value;
+  const end=document.getElementById('vac-end').value;
+  const note=document.getElementById('vac-note').value.trim();
+  if(!who||!start||!end){alert('Please fill in all required fields.');return;}
+  if(end<start){alert('End date must be on or after start date.');return;}
+  const dates=[],cur=new Date(start+'T00:00:00'),last=new Date(end+'T00:00:00');
+  while(cur<=last){dates.push(fmtDate(cur));cur.setDate(cur.getDate()+1);}
+  if(!state.vacations) state.vacations=[];
+  state.vacations.push({id:uid(),who,dates,note,start,end});
+  saveStateToCloud();closeModal('modal-add-vacation');renderCalendar();
+}
+function showVacationDetail(id){
+  if(!state.vacations)return;
+  const v=state.vacations.find(x=>x.id===id);if(!v)return;
+  const st=state.staff.find(s=>s.id===v.who);
+  document.getElementById('vac-detail-body').innerHTML=`
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem">
+      <div style="width:36px;height:36px;border-radius:50%;background:${st?st.color:'var(--teal)'};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#fff">${st?st.name[0]:'?'}</div>
+      <div><div style="font-size:15px;font-weight:600;color:var(--text)">${st?st.name:'Unknown'}</div>
+      <div style="font-size:12px;color:var(--text3)">${fmtPretty(v.start)} – ${fmtPretty(v.end)}</div></div>
+    </div>
+    <div style="background:var(--bg3);border-radius:var(--radius-sm);padding:.75rem;font-size:13px;color:var(--text2)">
+      <strong style="color:var(--text)">${v.dates.length} day${v.dates.length!==1?'s':''} off</strong>
+      ${v.note?`<div style="margin-top:4px;color:var(--text3)">"${v.note}"</div>`:''}
+    </div>`;
+  document.getElementById('vac-detail-actions').innerHTML=`
+    <button class="btn btn-sm btn-danger" onclick="deleteVacation('${id}')">Delete</button>
+    <button class="btn btn-sm" onclick="closeModal('modal-vacation-detail')">Close</button>`;
+  openModal('modal-vacation-detail');
+}
+function deleteVacation(id){
+  if(!confirm('Delete this vacation block?'))return;
+  state.vacations=state.vacations.filter(v=>v.id!==id);
+  saveStateToCloud();closeModal('modal-vacation-detail');renderCalendar();
 }
 
 // ── Mini calendar ─────────────────────────────────────────────────────────────
@@ -609,43 +631,56 @@ function renderMiniCal(){
   html+='</div>';
   document.getElementById('avail-mini-cal').innerHTML=html;
 }
-function toggleAvail(ds){ const i=state.selAvailDays.indexOf(ds); if(i>-1)state.selAvailDays.splice(i,1);else state.selAvailDays.push(ds); renderMiniCal(); }
+function toggleAvail(ds){
+  const i=state.selAvailDays.indexOf(ds);
+  if(i>-1)state.selAvailDays.splice(i,1);else state.selAvailDays.push(ds);
+  renderMiniCal();
+}
 
 // ── Trade requests ────────────────────────────────────────────────────────────
 function openRequestTrade(){
   populateSelect('trade-who');
   document.getElementById('trade-shift-date').value=fmtDate(new Date(Math.max(new Date(),Q3_START)));
-  setTradeType('day'); state.selAvailDays=[]; renderMiniCal();
-  document.getElementById('trade-note').value=''; openModal('modal-request-trade');
+  setTradeType('day');state.selAvailDays=[];renderMiniCal();
+  document.getElementById('trade-note').value='';
+  openModal('modal-request-trade');
 }
 function openRequestTradeForShift(shiftId){
-  const sh=state.shifts.find(s=>s.id===shiftId); populateSelect('trade-who');
-  if(sh){ document.getElementById('trade-who').value=sh.who; document.getElementById('trade-shift-date').value=sh.date; setTradeType(sh.type); }
-  state.selAvailDays=[]; renderMiniCal(); document.getElementById('trade-note').value=''; openModal('modal-request-trade');
+  const sh=state.shifts.find(s=>s.id===shiftId);
+  populateSelect('trade-who');
+  if(sh){document.getElementById('trade-who').value=sh.who;document.getElementById('trade-shift-date').value=sh.date;setTradeType(sh.type);}
+  state.selAvailDays=[];renderMiniCal();
+  document.getElementById('trade-note').value='';
+  openModal('modal-request-trade');
 }
 function saveTradeRequest(){
-  const who=document.getElementById('trade-who').value, date=document.getElementById('trade-shift-date').value, note=document.getElementById('trade-note').value.trim();
+  const who=document.getElementById('trade-who').value,date=document.getElementById('trade-shift-date').value,note=document.getElementById('trade-note').value.trim();
   if(!who||!date){alert('Please fill in required fields.');return;}
   const existSh=state.shifts.find(s=>s.who===who&&s.date===date&&s.type===state.tradeShiftType);
   state.trades.push({id:uid(),who,date,type:state.tradeShiftType,availDays:[...state.selAvailDays],note,shiftId:existSh?existSh.id:null,posted:new Date().toISOString()});
-  saveStateToCloud(); closeModal('modal-request-trade'); showTab('trades');
+  saveStateToCloud();closeModal('modal-request-trade');showTab('trades');
 }
 function renderTrades(){
-  const board=document.getElementById('trade-board'), cnt=document.getElementById('trade-count');
+  const board=document.getElementById('trade-board'),cnt=document.getElementById('trade-count');
   cnt.textContent=state.trades.length?state.trades.length+' request'+(state.trades.length!==1?'s':'')+' open':'No open requests';
-  if(!state.trades.length){ board.innerHTML=`<div class="empty-state"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>No trade requests yet.</div>`; return; }
+  if(!state.trades.length){
+    board.innerHTML=`<div class="empty-state"><svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5"/></svg>No trade requests yet.</div>`;
+    return;
+  }
   board.innerHTML=state.trades.map(t=>{
-    const st=state.staff.find(s=>s.id===t.who), nm=st?st.name:'Unknown', col=st?st.color:'#888';
+    const st=state.staff.find(s=>s.id===t.who),nm=st?st.name:'Unknown',col=st?st.color:'#888';
     const ago=t.posted?timeSince(t.posted):'';
     const avail=t.availDays.map(d=>{const p=d.split('-');return new Date(+p[0],+p[1]-1,+p[2]).toLocaleDateString('en-US',{month:'short',day:'numeric'});}).join(', ');
+    const emoji=t.type==='night'?'🌙':'☀️';
     return `<div class="trade-card">
       <div style="display:flex;align-items:center;gap:10px;margin-bottom:.75rem">
         <div style="width:34px;height:34px;border-radius:50%;background:${col};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#fff;flex-shrink:0">${nm[0]||'?'}</div>
-        <div><div style="font-size:14px;font-weight:600;color:var(--text)">${nm}</div><div style="font-size:12px;color:var(--text3)">${fmtPretty(t.date)}${ago?' &middot; posted '+ago:''}</div></div>
+        <div><div style="font-size:14px;font-weight:600;color:var(--text)">${nm}</div>
+        <div style="font-size:12px;color:var(--text3)">${fmtPretty(t.date)}${ago?' &middot; posted '+ago:''}</div></div>
       </div>
       <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:.75rem">
         <span class="badge badge-need">Needs coverage</span>
-        <span class="badge ${t.type==='day'?'badge-day':'badge-night'}">${t.type==='day'?'Day shift &mdash; 7a to 7p':'Night shift &mdash; 7p to 7a'}</span>
+        <span class="badge ${t.type==='day'?'badge-day':'badge-night'}">${emoji} ${t.type==='day'?'Day — 7a to 7p':'Night — 7p to 7a'}</span>
       </div>
       ${t.note?`<div style="font-size:13px;color:var(--text2);margin-bottom:.75rem;padding:.625rem .875rem;background:var(--bg3);border-radius:var(--radius-sm);border-left:3px solid var(--border2)">"${t.note}"</div>`:''}
       <div style="font-size:12px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:.625rem .875rem;margin-bottom:.875rem">
@@ -660,153 +695,30 @@ function renderTrades(){
   }).join('');
 }
 function volunteerCover(id){
-  const t=state.trades.find(x=>x.id===id); if(!t)return;
-  const st=state.staff.find(s=>s.id===t.who), nm=st?st.name:'a colleague';
+  const t=state.trades.find(x=>x.id===id);if(!t)return;
+  const st=state.staff.find(s=>s.id===t.who),nm=st?st.name:'a colleague';
   const msg=prompt(`You're volunteering to cover ${nm}'s ${t.type} shift on ${fmtPretty(t.date)}.\n\nEnter your name to confirm:`);
   if(!msg)return;
   if(confirm(`Confirm: ${msg} will cover ${nm}'s ${t.type} shift on ${fmtPretty(t.date)}. Remove from board?`)){
-    removeTrade(id); alert('Done! Remember to update your official scheduling system.');
+    removeTrade(id);alert('Done! Remember to update your official scheduling system.');
   }
 }
-function removeTrade(id){ state.trades=state.trades.filter(t=>t.id!==id); saveStateToCloud(); renderTrades(); renderCalendar(); }
-function timeSince(iso){ const d=(Date.now()-new Date(iso))/1000; if(d<60)return 'just now'; if(d<3600)return Math.floor(d/60)+'m ago'; if(d<86400)return Math.floor(d/3600)+'h ago'; return Math.floor(d/86400)+'d ago'; }
-
-// ── Import status ─────────────────────────────────────────────────────────────
-function setStatus(msg,color){ const el=document.getElementById('import-status'); el.textContent=msg; el.style.color=color||'var(--text3)'; }
-function setProgress(pct){ const w=document.getElementById('progress-wrap'),b=document.getElementById('progress-bar'); w.classList.toggle('vis',pct>0&&pct<100); b.style.width=pct+'%'; }
-
-// ── PDF import ────────────────────────────────────────────────────────────────
-async function handlePDFUpload(event){
-  const file=event.target.files[0]; event.target.value='';
-  if(!file)return;
-  if(!state.staff.length){setStatus('Add team members first.','var(--red-text)');return;}
-  setStatus('Reading PDF\u2026'); setProgress(15);
-  let base64;
-  try{ base64=await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(file)}); }
-  catch(e){setStatus('Could not read file.','var(--red-text)');setProgress(0);return;}
-  setProgress(35); setStatus('Sending to Claude AI\u2026');
-  try{
-    const resp=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
-      model:'claude-sonnet-4-20250514',max_tokens:1000,
-      system:'You are a hospital shift schedule parser. Extract every shift from the PDF that falls within Q3 2025 (June 21 through September 21 inclusive). Return ONLY a valid JSON array, no markdown, no explanation. Each object must have: "date" (YYYY-MM-DD), "type" ("day" or "night"), optional "name". Return [] if nothing found.',
-      messages:[{role:'user',content:[{type:'document',source:{type:'base64',media_type:'application/pdf',data:base64}},{type:'text',text:'Extract all Q3 2025 shifts. Return only a JSON array.'}]}]
-    })});
-    setProgress(75);
-    if(!resp.ok) throw new Error('API '+resp.status);
-    const data=await resp.json();
-    const raw=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('');
-    let shifts; try{shifts=JSON.parse(raw.replace(/```json|```/g,'').trim());}
-    catch(e){setStatus('AI could not parse this PDF layout. Try adding manually.','var(--amber-text)');setProgress(0);return;}
-    if(!Array.isArray(shifts)||!shifts.length){setStatus('No Q3 shifts found in this PDF.','var(--amber-text)');setProgress(0);return;}
-    pendingPDFShifts=shifts; setProgress(90); showPDFPreview(shifts,file.name); setProgress(0); setStatus('');
-  } catch(err){setStatus('Could not reach Claude AI. Check your connection.','var(--red-text)');setProgress(0);}
+function removeTrade(id){
+  state.trades=state.trades.filter(t=>t.id!==id);
+  saveStateToCloud();renderTrades();renderCalendar();
 }
-function showPDFPreview(shifts,filename){
-  document.getElementById('preview-summary').innerHTML=`Found <strong style="color:var(--text)">${shifts.length} shift${shifts.length!==1?'s':''}</strong> in <em>${filename}</em>. Assign and confirm.`;
-  populateSelect('preview-who');
-  const hasName=shifts.some(s=>s.name);
-  const rows=shifts.slice(0,25).map(s=>`<tr><td>${fmtPretty(s.date)}</td><td class="${s.type==='day'?'type-day':'type-night'}">${s.type==='day'?'Day':'Night'}</td>${hasName?`<td style="color:var(--text3)">${s.name||'&mdash;'}</td>`:''}</tr>`).join('');
-  const extra=shifts.length>25?`<tr><td colspan="${hasName?3:2}" style="text-align:center;color:var(--text3);padding:8px">\u2026and ${shifts.length-25} more</td></tr>`:'';
-  document.getElementById('preview-table-wrap').innerHTML=`<table class="preview-table"><thead><tr><th>Date</th><th>Type</th>${hasName?'<th>Name in PDF</th>':''}</tr></thead><tbody>${rows}${extra}</tbody></table>`;
-  openModal('modal-pdf-preview');
-}
-function confirmPDFImport(){
-  const who=document.getElementById('preview-who').value; if(!who)return;
-  let added=0;
-  pendingPDFShifts.forEach(s=>{
-    if(!s.date||!s.type)return;
-    if(!state.shifts.find(sh=>sh.date===s.date&&sh.who===who&&sh.type===s.type)){state.shifts.push({id:uid(),who,date:s.date,type:s.type});added++;}
-  });
-  saveStateToCloud(); closeModal('modal-pdf-preview'); renderCalendar();
-  setStatus(`Added ${added} shift${added!==1?'s':''} for ${(state.staff.find(s=>s.id===who)||{name:'team member'}).name}.`,'var(--green-text)');
-  pendingPDFShifts=[];
-}
-
-// ── ICS import ────────────────────────────────────────────────────────────────
-function handleICSUpload(event){
-  const file=event.target.files[0]; event.target.value='';
-  if(!file)return;
-  if(!state.staff.length){setStatus('Add team members first.','var(--red-text)');return;}
-  const reader=new FileReader();
-  reader.onload=function(e){
-    const blocks=e.target.result.split('BEGIN:VEVENT'); let added=0; const who=state.staff[0].id;
-    blocks.slice(1).forEach(block=>{
-      const dtstart=block.match(/DTSTART[^:]*:(\d{8})/); if(!dtstart)return;
-      const ds=dtstart[1],y=+ds.slice(0,4),m=+ds.slice(4,6)-1,d=+ds.slice(6,8),dt=new Date(y,m,d);
-      if(dt<Q3_START||dt>Q3_END)return;
-      const dateStr=fmtDate(dt);
-      const summMatch=block.match(/SUMMARY:([^\r\n]+)/);
-      const summ=summMatch?summMatch[1].toLowerCase():'';
-      const type=summ.includes('night')||summ.includes('noc')||summ.includes('pm')||summ.includes('7p')?'night':'day';
-      if(!state.shifts.find(s=>s.date===dateStr&&s.who===who&&s.type===type)){state.shifts.push({id:uid(),who,date:dateStr,type});added++;}
-    });
-    saveStateToCloud(); renderCalendar();
-    setStatus(`Imported ${added} shift${added!==1?'s':''} for ${state.staff[0].name}.`,'var(--green-text)');
-  };
-  reader.readAsText(file);
-}
-
-// ── Vacations ─────────────────────────────────────────────────────────────────
-function openAddVacation(){
-  populateSelect('vac-who');
-  document.getElementById('vac-start').value='';
-  document.getElementById('vac-end').value='';
-  document.getElementById('vac-note').value='';
-  openModal('modal-add-vacation');
-}
-
-function saveVacation(){
-  const who=document.getElementById('vac-who').value;
-  const start=document.getElementById('vac-start').value;
-  const end=document.getElementById('vac-end').value;
-  const note=document.getElementById('vac-note').value.trim();
-  if(!who||!start||!end){alert('Please fill in all required fields.');return;}
-  if(end<start){alert('End date must be on or after start date.');return;}
-  // Expand the date range into individual date strings
-  const dates=[];
-  const cur=new Date(start+'T00:00:00');
-  const last=new Date(end+'T00:00:00');
-  while(cur<=last){ dates.push(fmtDate(cur)); cur.setDate(cur.getDate()+1); }
-  if(!state.vacations) state.vacations=[];
-  state.vacations.push({id:uid(),who,dates,note,start,end});
-  saveStateToCloud(); closeModal('modal-add-vacation'); renderCalendar();
-}
-
-function showVacationDetail(id){
-  if(!state.vacations) return;
-  const v=state.vacations.find(x=>x.id===id); if(!v)return;
-  const st=state.staff.find(s=>s.id===v.who);
-  document.getElementById('vac-detail-body').innerHTML=`
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem">
-      <div style="width:36px;height:36px;border-radius:50%;background:${st?st.color:'#0e7490'};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#fff">${st?st.name[0]:'?'}</div>
-      <div><div style="font-size:15px;font-weight:600;color:var(--text)">${st?st.name:'Unknown'}</div>
-      <div style="font-size:12px;color:var(--text3)">${fmtPretty(v.start)} &ndash; ${fmtPretty(v.end)}</div></div>
-    </div>
-    <div style="background:var(--bg3);border-radius:var(--radius-sm);padding:.75rem;font-size:13px;color:var(--text2);margin-bottom:.75rem">
-      <strong style="color:var(--text)">${v.dates.length} day${v.dates.length!==1?'s':''} off</strong>
-      ${v.note?`<div style="margin-top:4px;color:var(--text3)">${v.note}</div>`:''}
-    </div>`;
-  document.getElementById('vac-detail-actions').innerHTML=`
-    <button class="btn btn-sm btn-danger" onclick="deleteVacation('${id}')">Delete</button>
-    <button class="btn btn-sm" onclick="closeModal('modal-vacation-detail')">Close</button>`;
-  openModal('modal-vacation-detail');
-}
-
-function deleteVacation(id){
-  if(!confirm('Delete this vacation block?'))return;
-  state.vacations=state.vacations.filter(v=>v.id!==id);
-  saveStateToCloud(); closeModal('modal-vacation-detail'); renderCalendar();
+function timeSince(iso){
+  const d=(Date.now()-new Date(iso))/1000;
+  if(d<60)return 'just now';if(d<3600)return Math.floor(d/60)+'m ago';
+  if(d<86400)return Math.floor(d/3600)+'h ago';return Math.floor(d/86400)+'d ago';
 }
 
 // ── Init ──────────────────────────────────────────────────────────────────────
 async function init(){
   setSyncStatus('wait');
   await loadStateFromCloud();
-  // Seed _lastSeenData so first poll doesn't trigger a false "updated" toast
-  _lastSeenData = JSON.stringify({staff:state.staff, shifts:state.shifts, trades:state.trades});
+  _lastSeenData=JSON.stringify(cloudPayload());
   startPolling();
-  // Only add default staff member if the database is genuinely empty
-  // (don't overwrite real data that already exists in Supabase)
   if(!state.staff.length){
     state.staff=[{id:uid(),name:'You',color:COLORS[0]}];
     saveStateToCloud();
