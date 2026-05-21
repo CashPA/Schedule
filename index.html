@@ -526,7 +526,7 @@ function renderCalendar(){
       const st=state.staff.find(s=>s.id===sh.who);
       const col=st?st.color:(sh.type==='day'?'#378ADD':'#7F77DD'), nm=st?st.name:'?';
       const hasTrade=state.trades.find(t=>t.shiftId===sh.id);
-      const nightCls=(!hasTrade&&sh.type==='night')?' night-shift':'';
+    
       html+=`<div class="shift-chip${hasTrade?' chip-trade':''}" style="${hasTrade?'':'background:'+col}" onclick="event.stopPropagation();showShiftDetail('${sh.id}')">
         <span class="chip-name">${nm}</span><span class="chip-badge">${sh.type==='day'?'☀️':'🌙'}</span>${hasTrade?`<span class="chip-badge">!</span>`:''}
       </div>`;
