@@ -428,14 +428,36 @@ function pickColor(col){selColor=col;renderColorPickers()}
 // ── Team ──────────────────────────────────────────────────────────────────────
 function renderTeam(){
   document.getElementById('staff-list').innerHTML=state.staff.length
-    ?state.staff.map(s=>`<div class="staff-row-item">
-        <div class="color-swatch" style="background:${s.color}"></div>
-        <span style="flex:1;font-size:13px;color:var(--text)">${s.name}</span>
-        <span style="font-size:11px;color:var(--text3);margin-right:8px">${state.shifts.filter(sh=>sh.who===s.id).length} shifts</span>
-        <button class="btn btn-sm btn-danger" onclick="removeStaff('${s.id}')">Remove</button>
+    ?state.staff.map(s=>`
+      <div>
+        <div class="staff-row-item" style="flex-wrap:wrap;gap:8px">
+          <div class="color-swatch" style="background:${s.color};cursor:pointer" title="Click to change color" onclick="toggleColorEdit('${s.id}')"></div>
+          <span style="flex:1;font-size:13px;color:var(--text);min-width:80px">${s.name}</span>
+          <span style="font-size:11px;color:var(--text3)">${state.shifts.filter(sh=>sh.who===s.id).length} shifts</span>
+          <button class="btn btn-sm" onclick="toggleColorEdit('${s.id}')" style="font-size:11px">🎨 Color</button>
+          <button class="btn btn-sm btn-danger" onclick="removeStaff('${s.id}')">Remove</button>
+        </div>
+        <div id="color-edit-${s.id}" style="display:none;padding:.5rem .875rem .625rem;background:var(--bg4);border:1px solid var(--border);border-top:none;border-radius:0 0 var(--radius-sm) var(--radius-sm);display:none">
+          <div style="font-size:11px;color:var(--text3);margin-bottom:6px">Pick a new color for ${s.name}:</div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            ${COLORS.map(col=>`<div class="color-dot-pick${s.color===col?' sel':''}" style="background:${col}" onclick="changeStaffColor('${s.id}','${col}')"></div>`).join('')}
+          </div>
+        </div>
       </div>`).join('')
     :`<div style="font-size:13px;color:var(--text3);padding:.5rem 0">No team members yet.</div>`;
   renderColorPickers();
+}
+
+function toggleColorEdit(id){
+  const el=document.getElementById('color-edit-'+id);
+  if(!el)return;
+  el.style.display=el.style.display==='none'?'block':'none';
+}
+
+function changeStaffColor(id,col){
+  const s=state.staff.find(x=>x.id===id);if(!s)return;
+  s.color=col;
+  saveStateToCloud();renderTeam();renderCalendar();
 }
 function addStaff(){
   const n=document.getElementById('new-name').value.trim();if(!n)return;
