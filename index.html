@@ -248,7 +248,7 @@
   <div class="modal">
     <h3>Add shift</h3>
     <div class="form-row"><label>Team member</label><select id="shift-who"></select></div>
-    <div class="form-row"><label>Date</label><input type="date" id="shift-date" min="2025-06-21" max="2025-09-21"/></div>
+    <div class="form-row"><label>Date</label><input type="date" id="shift-date" min="2026-06-21" max="2027-09-21"/></div>
     <div class="form-row">
       <label>Shift type</label>
       <div class="toggle-group">
@@ -277,7 +277,7 @@
   <div class="modal">
     <h3>Request a trade</h3>
     <div class="form-row"><label>Your name</label><select id="trade-who"></select></div>
-    <div class="form-row"><label>Shift you need covered</label><input type="date" id="trade-shift-date" min="2025-06-21" max="2025-09-21"/></div>
+    <div class="form-row"><label>Shift you need covered</label><input type="date" id="trade-shift-date" min="2026-06-21" max="2027-09-21"/></div>
     <div class="form-row">
       <label>Shift type</label>
       <div class="toggle-group">
@@ -326,13 +326,13 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const COLORS   = ['#378ADD','#7F77DD','#1D9E75','#D85A30','#BA7517','#D4537E','#639922','#5DCAA5','#E24B4A'];
-const HOLIDAYS = {'2025-07-04':'Independence Day','2025-09-01':'Labor Day'};
-const Q3_START = new Date(2025,5,21);
-const Q3_END   = new Date(2025,8,21);
+const HOLIDAYS = {'2026-07-04':'Independence Day','2026-09-07':'Labor Day'};
+const Q3_START = new Date(2026,5,21);
+const Q3_END   = new Date(2027,8,21);
 const MONTHS   = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const ROW_ID   = 1;
 
-let state = {staff:[],shifts:[],trades:[],curMonth:5,curYear:2025,addShiftType:'day',tradeShiftType:'day',selAvailDays:[]};
+let state = {staff:[],shifts:[],trades:[],curMonth:5,curYear:2026,addShiftType:'day',tradeShiftType:'day',selAvailDays:[]};
 let pendingPDFShifts = [];
 let selColor = COLORS[0];
 let _suppressRemote = false;
