@@ -65,9 +65,12 @@
   .holiday-label{font-size:9px;color:var(--red-text);margin-bottom:2px;font-weight:500}
   .shift-chip{font-size:10px;padding:2px 6px;border-radius:4px;margin-bottom:2px;color:#fff;display:flex;align-items:center;gap:3px;cursor:pointer;transition:opacity .1s}
   .shift-chip:hover{opacity:.85}
+  .shift-chip.night-shift{filter:brightness(0.72)}
   .chip-name{flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-weight:500}
   .chip-badge{font-size:9px;padding:1px 3px;border-radius:3px;background:rgba(0,0,0,0.25);flex-shrink:0}
-  .chip-trade{background:var(--red)!important}
+  .chip-trade{background:var(--red)!important;filter:none!important}
+  .vacation-chip{font-size:10px;padding:2px 6px;border-radius:4px;margin-bottom:2px;color:#fff;display:flex;align-items:center;gap:3px;cursor:pointer;transition:opacity .1s;background:#0e7490;border-left:3px solid #22d3ee}
+  .vacation-chip:hover{opacity:.85}
   .trade-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.25rem;margin-bottom:.75rem;transition:border-color .15s}
   .trade-card:hover{border-color:var(--border2)}
   .badge{font-size:11px;padding:2px 9px;border-radius:10px;font-weight:500}
@@ -163,8 +166,9 @@
   <!-- CALENDAR -->
   <div id="sec-calendar" class="section active">
     <div class="legend">
-      <div class="legend-item"><div class="legend-dot" style="background:#378ADD"></div>Day shift</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#7F77DD"></div>Night shift</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#378ADD"></div>☀️ Day shift (full color)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#378ADD;filter:brightness(0.72)"></div>🌙 Night shift (dimmed)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#0e7490;border-left:3px solid #22d3ee"></div>🏖️ Vacation</div>
       <div class="legend-item"><div class="legend-dot" style="background:#E24B4A"></div>Trade requested</div>
       <div class="legend-item"><div class="legend-dot" style="background:#2e3650;border:1px solid #E24B4A"></div>Holiday</div>
     </div>
@@ -174,7 +178,10 @@
         <h3 id="month-label">June 2025</h3>
         <button onclick="nextMonth()">&#8250;</button>
       </div>
-      <button class="btn btn-sm btn-primary" onclick="openAddShift()">+ Add shift</button>
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-sm btn-primary" onclick="openAddShift()">+ Add shift</button>
+        <button class="btn btn-sm" style="background:#0e7490;border-color:#0891b2;color:#fff" onclick="openAddVacation()">🏖️ Vacation</button>
+      </div>
     </div>
     <div class="cal-grid">
       <div class="dow">SUN</div><div class="dow">MON</div><div class="dow">TUE</div>
@@ -248,7 +255,7 @@
   <div class="modal">
     <h3>Add shift</h3>
     <div class="form-row"><label>Team member</label><select id="shift-who"></select></div>
-    <div class="form-row"><label>Date</label><input type="date" id="shift-date" min="2026-06-21" max="2027-09-21"/></div>
+    <div class="form-row"><label>Date</label><input type="date" id="shift-date" min="2025-06-21" max="2025-09-21"/></div>
     <div class="form-row">
       <label>Shift type</label>
       <div class="toggle-group">
@@ -277,7 +284,7 @@
   <div class="modal">
     <h3>Request a trade</h3>
     <div class="form-row"><label>Your name</label><select id="trade-who"></select></div>
-    <div class="form-row"><label>Shift you need covered</label><input type="date" id="trade-shift-date" min="2026-06-21" max="2027-09-21"/></div>
+    <div class="form-row"><label>Shift you need covered</label><input type="date" id="trade-shift-date" min="2025-06-21" max="2025-09-21"/></div>
     <div class="form-row">
       <label>Shift type</label>
       <div class="toggle-group">
@@ -316,23 +323,50 @@
 
 <div class="toast" id="toast"></div>
 
+<!-- MODAL: Add vacation -->
+<div class="modal-overlay" id="modal-add-vacation">
+  <div class="modal">
+    <h3>🏖️ Add vacation block</h3>
+    <div class="form-row"><label>Team member</label><select id="vac-who"></select></div>
+    <div class="form-row"><label>Start date</label><input type="date" id="vac-start" min="2026-06-21" max="2026-09-21"/></div>
+    <div class="form-row"><label>End date</label><input type="date" id="vac-end" min="2026-06-21" max="2026-09-21"/></div>
+    <div class="form-row">
+      <label>Note <span style="color:var(--text3);font-weight:400">(optional)</span></label>
+      <input type="text" id="vac-note" placeholder="e.g. Annual leave, Conference…"/>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-sm" onclick="closeModal('modal-add-vacation')">Cancel</button>
+      <button class="btn btn-sm" style="background:#0e7490;border-color:#0891b2;color:#fff" onclick="saveVacation()">Save vacation</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Vacation detail -->
+<div class="modal-overlay" id="modal-vacation-detail">
+  <div class="modal">
+    <h3>🏖️ Vacation</h3>
+    <div id="vac-detail-body" style="margin-bottom:1rem"></div>
+    <div class="form-actions" id="vac-detail-actions"></div>
+  </div>
+</div>
+
 <script>
 // ─── CONFIG ──────────────────────────────────────────────────────────────────
 // FIX 1: URL must be base project URL only — no /rest/v1/, no trailing slash
-const SUPABASE_URL      = 'https://hyxftqxihhqgfbfxkpgx.supabase.co';
+const SUPABASE_URL      = 'https://hyxftqxihhqgfxkpgx.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh5eGZ0cXhpaGhxZ2ZiZnhrcGd4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzMTI0MjAsImV4cCI6MjA5NDg4ODQyMH0.-8xiy9XYuHLMWXxfMpH4IJIROcpgSn6Uw6bK__9pGPY';
 // ─────────────────────────────────────────────────────────────────────────────
 
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const COLORS   = ['#378ADD','#7F77DD','#1D9E75','#D85A30','#BA7517','#D4537E','#639922','#5DCAA5','#E24B4A'];
-const HOLIDAYS = {'2026-07-04':'Independence Day','2026-09-07':'Labor Day'};
-const Q3_START = new Date(2026,5,21);
-const Q3_END   = new Date(2027,8,21);
+const HOLIDAYS = {'2025-07-04':'Independence Day','2025-09-01':'Labor Day'};
+const Q3_START = new Date(2025,5,21);
+const Q3_END   = new Date(2025,8,21);
 const MONTHS   = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 const ROW_ID   = 1;
 
-let state = {staff:[],shifts:[],trades:[],curMonth:5,curYear:2026,addShiftType:'day',tradeShiftType:'day',selAvailDays:[]};
+let state = {staff:[],shifts:[],trades:[],vacations:[],curMonth:5,curYear:2026,addShiftType:'day',tradeShiftType:'day',selAvailDays:[]};
 let pendingPDFShifts = [];
 let selColor = COLORS[0];
 let _suppressRemote = false;
@@ -363,7 +397,7 @@ async function loadStateFromCloud(){
     if(error) throw error;
     if(data && data.data && data.data.staff){
       const ui = {curMonth:state.curMonth, curYear:state.curYear, addShiftType:state.addShiftType, tradeShiftType:state.tradeShiftType, selAvailDays:state.selAvailDays};
-      state = Object.assign({}, data.data, ui);
+      state = Object.assign({vacations:[]}, data.data, ui);
     }
     setSyncStatus('live');
   } catch(e) {
@@ -407,7 +441,7 @@ async function pollForUpdates(){
     if(incoming === _lastSeenData) return; // nothing changed
     _lastSeenData = incoming;
     const ui = {curMonth:state.curMonth, curYear:state.curYear, addShiftType:state.addShiftType, tradeShiftType:state.tradeShiftType, selAvailDays:state.selAvailDays};
-    state = Object.assign({}, data.data, ui);
+    state = Object.assign({vacations:[]}, data.data, ui);
     refreshAllViews();
     toast('Calendar updated \u21BB');
     setSyncStatus('live');
@@ -492,8 +526,16 @@ function renderCalendar(){
       const st=state.staff.find(s=>s.id===sh.who);
       const col=st?st.color:(sh.type==='day'?'#378ADD':'#7F77DD'), nm=st?st.name:'?';
       const hasTrade=state.trades.find(t=>t.shiftId===sh.id);
-      html+=`<div class="shift-chip${hasTrade?' chip-trade':''}" style="${hasTrade?'':'background:'+col}" onclick="event.stopPropagation();showShiftDetail('${sh.id}')">
-        <span class="chip-name">${nm}</span><span class="chip-badge">${sh.type==='day'?'D':'N'}</span>${hasTrade?`<span class="chip-badge">!</span>`:''}
+      const nightCls=(!hasTrade&&sh.type==='night')?' night-shift':'';
+      html+=`<div class="shift-chip${hasTrade?' chip-trade':nightCls}" style="${hasTrade?'':'background:'+col}" onclick="event.stopPropagation();showShiftDetail('${sh.id}')">
+        <span class="chip-name">${nm}</span><span class="chip-badge">${sh.type==='day'?'☀️':'🌙'}</span>${hasTrade?`<span class="chip-badge">!</span>`:''}
+      </div>`;
+    });
+    state.vacations.filter(v=>v.dates.includes(ds)).forEach(v=>{
+      const st=state.staff.find(s=>s.id===v.who);
+      const nm=st?st.name:'?';
+      html+=`<div class="vacation-chip" onclick="event.stopPropagation();showVacationDetail('${v.id}')">
+        <span class="chip-name">🏖️ ${nm}</span>
       </div>`;
     });
     html+=`</div>`;
@@ -702,6 +744,58 @@ function handleICSUpload(event){
     setStatus(`Imported ${added} shift${added!==1?'s':''} for ${state.staff[0].name}.`,'var(--green-text)');
   };
   reader.readAsText(file);
+}
+
+// ── Vacations ─────────────────────────────────────────────────────────────────
+function openAddVacation(){
+  populateSelect('vac-who');
+  document.getElementById('vac-start').value='';
+  document.getElementById('vac-end').value='';
+  document.getElementById('vac-note').value='';
+  openModal('modal-add-vacation');
+}
+
+function saveVacation(){
+  const who=document.getElementById('vac-who').value;
+  const start=document.getElementById('vac-start').value;
+  const end=document.getElementById('vac-end').value;
+  const note=document.getElementById('vac-note').value.trim();
+  if(!who||!start||!end){alert('Please fill in all required fields.');return;}
+  if(end<start){alert('End date must be on or after start date.');return;}
+  // Expand the date range into individual date strings
+  const dates=[];
+  const cur=new Date(start+'T00:00:00');
+  const last=new Date(end+'T00:00:00');
+  while(cur<=last){ dates.push(fmtDate(cur)); cur.setDate(cur.getDate()+1); }
+  if(!state.vacations) state.vacations=[];
+  state.vacations.push({id:uid(),who,dates,note,start,end});
+  saveStateToCloud(); closeModal('modal-add-vacation'); renderCalendar();
+}
+
+function showVacationDetail(id){
+  if(!state.vacations) return;
+  const v=state.vacations.find(x=>x.id===id); if(!v)return;
+  const st=state.staff.find(s=>s.id===v.who);
+  document.getElementById('vac-detail-body').innerHTML=`
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:1rem">
+      <div style="width:36px;height:36px;border-radius:50%;background:${st?st.color:'#0e7490'};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#fff">${st?st.name[0]:'?'}</div>
+      <div><div style="font-size:15px;font-weight:600;color:var(--text)">${st?st.name:'Unknown'}</div>
+      <div style="font-size:12px;color:var(--text3)">${fmtPretty(v.start)} &ndash; ${fmtPretty(v.end)}</div></div>
+    </div>
+    <div style="background:var(--bg3);border-radius:var(--radius-sm);padding:.75rem;font-size:13px;color:var(--text2);margin-bottom:.75rem">
+      <strong style="color:var(--text)">${v.dates.length} day${v.dates.length!==1?'s':''} off</strong>
+      ${v.note?`<div style="margin-top:4px;color:var(--text3)">${v.note}</div>`:''}
+    </div>`;
+  document.getElementById('vac-detail-actions').innerHTML=`
+    <button class="btn btn-sm btn-danger" onclick="deleteVacation('${id}')">Delete</button>
+    <button class="btn btn-sm" onclick="closeModal('modal-vacation-detail')">Close</button>`;
+  openModal('modal-vacation-detail');
+}
+
+function deleteVacation(id){
+  if(!confirm('Delete this vacation block?'))return;
+  state.vacations=state.vacations.filter(v=>v.id!==id);
+  saveStateToCloud(); closeModal('modal-vacation-detail'); renderCalendar();
 }
 
 // ── Init ──────────────────────────────────────────────────────────────────────
